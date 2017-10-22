@@ -47,9 +47,9 @@ def open_proxy(proxy):
 # Cookie类
 class Cookie:
     def __init__(self):
-        self.cookie_object = self.open_cookie()
+        self.cookie_object = self.__open_cookie()
 
-    def open_cookie(self):
+    def __open_cookie(self):
         print('开启cookie')
         cookie_object = http.cookiejar.CookieJar()
         handler = urllib.request.HTTPCookieProcessor(cookie_object)
@@ -57,19 +57,19 @@ class Cookie:
         urllib.request.install_opener(opener)
         return cookie_object
 
-    def read(self):
+    def __read(self):
         self.cookies = {}
         for i in self.cookie_object:
             self.cookies[i.name] = i.value
         return self.cookies
 
     def get(self, key):
-        self.cookies = self.read()
+        self.cookies = self.__read()
         value = self.cookies.get(key)
         return value
 
     def __str__(self):
-        self.cookies = self.read()
+        self.cookies = self.__read()
         return str(self.cookies)
 
 # 判断网页编码
