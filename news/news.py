@@ -1,6 +1,6 @@
-import spider as zspider
+import spider
 
-cj = zspider.open_cookie()
-back = zspider.get('http://www.baidu.com')
-cookies = zspider.read_cookie(cj)
-print(cookies)
+cookie = spider.Cookie()
+back = spider.open('http://www.baidu.com')
+
+print(cookie.get('BAIDUID'))

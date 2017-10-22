@@ -2,7 +2,7 @@ import urllib
 import urllib.request
 import http.cookiejar
 
-def get(url, charset=None):
+def open(url, charset=None):
     request = urllib.request.Request(url)
     response = urllib.request.urlopen(request)
 
@@ -34,28 +34,38 @@ def urlencode(data):
     return form_data
 
 def open_proxy(proxy):
-    print('通过http代理访问 ' + proxy)
+    print('已启用HTTP代理 ' + proxy)
     set_proxy = urllib.request.ProxyHandler({'http': proxy})  # 设置proxy
     opener = urllib.request.build_opener(set_proxy)  # 挂载opener
     urllib.request.install_opener(opener)  # 安装opener
     return
 
-def open_cookie():
-    cookie = http.cookiejar.CookieJar()
-    handler = urllib.request.HTTPCookieProcessor(cookie)
-    opener = urllib.request.build_opener(handler)
-    urllib.request.install_opener(opener)
-    return cookie
+class Cookie:
+    def __init__(self):
+        self.cookie_object = self.open_cookie()
 
-def read_cookie(cj):
-    cookies = []
-    for item in cj:
-        clist = {
-            'name': item.name,
-            'value': item.value
-        }
-        cookies.append(clist)
-    return cookies
+    def open_cookie(self):
+        print('开启cookie')
+        cookie_object = http.cookiejar.CookieJar()
+        handler = urllib.request.HTTPCookieProcessor(cookie_object)
+        opener = urllib.request.build_opener(handler)
+        urllib.request.install_opener(opener)
+        return cookie_object
+
+    def read(self):
+        self.cookies = {}
+        for i in self.cookie_object:
+            self.cookies[i.name] = i.value
+        return self.cookies
+
+    def get(self, key):
+        self.cookies = self.read()
+        value = self.cookies.get(key)
+        return value
+
+    def __str__(self):
+        self.cookies = self.read()
+        return str(self.cookies)
 
 def judge_charset(response):
     charset = response.info().get_param('charset')
