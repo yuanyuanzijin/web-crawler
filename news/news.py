@@ -1,4 +1,6 @@
 import spider as zspider
 
-back = zspider.get('https://baidu.com', proxy='localhost:1081')
-print(back)
+cj = zspider.open_cookie()
+back = zspider.get('http://www.baidu.com')
+cookies = zspider.read_cookie(cj)
+print(cookies)
