@@ -53,11 +53,21 @@ while 1:
 
 req = s.get('http://202.118.65.123/pyxx/grgl/xskccjcx.aspx?xh=%s' % username)
 soup = BeautifulSoup(req.text, 'html.parser')
-scores = soup.select('#MainWork_dgData tr')[1:]
-print('\n共找到%d条成绩：' % len(scores))
-for score in scores:
-    soup = BeautifulSoup(str(score), 'html.parser')
-    name = soup.select('td')[0].text
-    value = soup.select('span')[0].text
+
+bx_scores = soup.select('#MainWork_dgData tr')[1:]
+print('\n共找到%d条必修课成绩' % len(bx_scores))
+for score in bx_scores:
+    soup1 = BeautifulSoup(str(score), 'html.parser')
+    name = soup1.select('td')[0].text
+    value = soup1.select('span')[0].text
     print(name, value)
+
+xx_scores = soup.select('#MainWork_Datagrid1 tr')[1:]
+print('\n共找到%d条选修课成绩' % len(xx_scores))
+for score in xx_scores:
+    soup2 = BeautifulSoup(str(score), 'html.parser')
+    name = soup2.select('td')[0].text
+    value = soup2.select('span')[0].text
+    print(name, value)
+
 input('\n按Enter键退出...')
