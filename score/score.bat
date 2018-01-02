@@ -1,3 +1,3 @@
 @echo off
-start python score.py
+start python score_sso.py
 exit
